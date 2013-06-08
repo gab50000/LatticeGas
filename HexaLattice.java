@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class HexaLattice implements DefaultLattice{
+public class HexaLattice{
 
 	private int i,j;
 	private boolean[][] lattice;
@@ -14,7 +14,9 @@ public class HexaLattice implements DefaultLattice{
 	public void step(Random r){
 		this.i = r.nextInt(this.lattice.size);
 		this.j = r.nextInt(this.lattice.size);
-		
 	}
+	
+
+
 	
 }
