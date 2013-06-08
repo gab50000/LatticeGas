@@ -1,9 +1,10 @@
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 public class xyzFile{
 	
 	private Scanner sc;
 	private int atomnumber;
+	private Map indexmap;
 	
 	public xyzFile(String filename) throws FileNotFoundException{
 		this.sc = new Scanner(new File(filename));
@@ -35,7 +36,5 @@ public class xyzFile{
 
 		return atoms;
 	}
-
-
 }
 
