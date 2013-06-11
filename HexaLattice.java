@@ -9,12 +9,12 @@ public class HexaLattice{
 
 	public HexaLattice (int OxygenNumber) {
 		this.lattice = new boolean[OxygenNumber][OxygenNumber];
-		this.transitionMatrix = new boolean[OxygenNumber+1][OxygenNumber+1];
+		this.transitionMatrix = new double[OxygenNumber+1][OxygenNumber+1];
 	}
 
 	public void step(Random r){
-		this.i = r.nextInt(this.lattice.size);
-		this.j = r.nextInt(this.lattice.size);
+		this.i = r.nextInt(this.lattice.length);
+		this.j = r.nextInt(this.lattice.length);
 	}
 	
 

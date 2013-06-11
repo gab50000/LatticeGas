@@ -7,8 +7,9 @@ public class xyzFile{
 	private HashMap <String, ArrayList<Integer>> indexmap;
 	private boolean[] indicestoshow;
 	private ArrayList<Integer> Hacid_indices;
+	private boolean showAcidHs=false;
 	
-	public xyzFile(String filename) throws FileNotFoundException{
+	public xyzFile(String filename) throws FileNotFoundException, IOException{
 		this.sc = new Scanner(new File(filename));
 		this.atomnumber = sc.nextInt();
 		sc.nextLine();
@@ -21,6 +22,13 @@ public class xyzFile{
 		this.indexmap = determineAtoms(sc, atomnumber);
 		this.sc.close();
 		this.sc = new Scanner(new File(filename));
+		
+		this.Hacid_indices = new ArrayList<>();
+
+		if (this.indexmap.containsKey("H") && (this.indexmap.containsKey("O"))){
+			determineAcidHs();
+		}
+
 	}
 
 	private HashMap<String,ArrayList<Integer>> determineAtoms(Scanner sc, int steps){
@@ -84,7 +92,12 @@ public class xyzFile{
 		ArrayList<Integer> atomstoshow = new ArrayList<Integer>();
 		for (int i = 0; i < atoms.length; i++){
 			if (this.indexmap.containsKey(atoms[i])){
-				atomstoshow.addAll(this.indexmap.get(atoms[i]));
+				if (atoms[i] == "H" && showAcidHs){
+					atomstoshow.addAll(this.Hacid_indices);
+				}
+				else{
+					atomstoshow.addAll(this.indexmap.get(atoms[i]));
+				}
 			}
 		}
 		
@@ -113,8 +126,39 @@ public class xyzFile{
 		else return 0;
 	}
 	
-	public set_acidicHs(){
-		Atom[] Hs = 
+	private void determineAcidHs() throws IOException{
+		Atom[] atoms = getAtoms();
+		int Hindex;
+		for (int i = 0; i< this.indexmap.get("H").size(); i++){
+			Hindex = this.indexmap.get("H").get(i);
+			if (!atoms[Hindex].closestNeighbor(atoms).getName().equals("C")){
+				this.Hacid_indices.add(Hindex);
+			}
+		}
+	}
+
+	public void toggleAcidHs(){
+		this.showAcidHs = !this.showAcidHs;
+
+		if (this.showAcidHs){
+			for (int i=0; i< this.indicestoshow.length; i++){
+				if (this.indexmap.get("H").contains(i)){
+					this.indicestoshow[i] = false;
+				}
+			}
+			for (int i=0; i< this.indicestoshow.length; i++){
+				if (this.Hacid_indices.contains(i)){
+					this.indicestoshow[i] = true;
+				}
+			}
+		}
+		else{
+			for (int i=0; i< this.indicestoshow.length; i++){
+				if (this.indexmap.get("H").contains(i)){
+					this.indicestoshow[i] = true;
+				}
+			}			
+		}
 	}
 	
 	

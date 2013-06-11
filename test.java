@@ -9,14 +9,15 @@ public class test{
 
 		try{
 			xyzFile hex400 = new xyzFile("../../Master/trajectories/400K.xyz");
-			String[] atoms={"P", "O"};
+			String[] atoms={"H", "O", "P"};
+			hex400.toggleAcidHs();
 			hex400.setAtomsShown(atoms);
 			for (int i = 0; i<75000; i++){
 				hex400.readFrame();
 			}
-			}
+		}
 		catch (Exception e){
-			System.err.println("Nö");
+			System.err.println(e);
 		}
 
 
